@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSA Quiz Challenge</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(180deg, #121212, #1e1e2e);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Floating Elements Styling */
+.floating-elements {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000; /* Make sure it floats above the content */
+  overflow: hidden;
+}
+
+/* Floating Image Styling */
+.floating-image {
+  position: absolute;
+  width: 120px;
+  opacity: 0.1;
+  animation: float 12s infinite ease-in-out;
+  pointer-events: none; /* Prevent interaction with floating images */
+}
+
+/* Define Positions of Floating Images, Randomize Their Movement */
+.floating-image:nth-child(1) {
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.floating-image:nth-child(2) {
+  top: 50%;
+  left: 10%;
+  animation-delay: 2s;
+}
+
+.floating-image:nth-child(3) {
+  top: 60%;
+  left: 80%;
+  animation-delay: 4s;
+}
+
+.floating-image:nth-child(4) {
+  top: 80%;
+  left: 10%;
+  animation-delay: 6s;
+}
+
+.floating-image:nth-child(5) {
+  top: 20%;
+  left: 80%;
+  animation-delay: 8s;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-50px) rotate(20deg);
+  }
+}
+
+
+
+    /* Container styling */
+    .container {
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      z-index: 1;
+    }
+
+    /* Quiz Section */
+    #quizSection {
+      display: block;
+      background: linear-gradient(180deg, #2a2a42, #3a3a5a);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .question {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .option {
+      padding: 12px;
+      background: #5e35b1;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #fff;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .option:hover {
+      background: #7e57c2;
+      transform: scale(1.05);
+    }
+
+    .selected {
+      background: #fdd835;
+      animation: pulse 0.6s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    .btn {
+      background-color: #fdd835;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #000;
+      margin-top: 20px;
+      transition: transform 0.3s ease, background-color 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      background-color: #ffeb3b;
+    }
+
+    #warningMessage {
+      color: red;
+      font-size: 1rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Results Section */
+    #resultSection {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .progress-circle {
+      position: relative;
+      margin: 20px auto;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      clip-path: circle(50%);
+    }
+
+    .progress-circle-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: #1e1e2e;
+    }
+
+    .progress-circle span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    #restartBtn {
+      margin-top: 20px;
+      background-color: #fdd835;
+      color: #000;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.2s ease;
+    }
+
+    #restartBtn:hover {
+      transform: scale(1.1);
+      background-color: #ffeb3b;
+    }
+
+    .focus-message {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      color: #ffab00;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Floating Elements -->
+<div class="floating-elements">
+  <img src="/static/images/1.png" class="floating-image" alt="Binary Tree">
+  <img src="/static/images/2.png" class="floating-image" alt="Graph">
+  <img src="/static/images/3.png" class="floating-image" alt="Array">
+  <img src="/static/images/4.png" class="floating-image" alt="Stack">
+  <img src="/static/images/2.png" class="floating-image" alt="Linked List">
+</div>
+
+
+  <div class="container">
+    <!-- Quiz Section -->
+    <div id="quizSection">
+      <h1>DSA Quiz Challenge</h1>
+      <p class="question" id="question">What is the time complexity of binary search?</p>
+      <div class="options" id="options"></div>
+      <p id="warningMessage">Please select an option before proceeding.</p>
+      <button class="btn" id="nextBtn">Next</button>
+    </div>
+
+    <!-- Result Section -->
+    <div id="resultSection">
+      <div class="progress-circle">
+        <div class="progress-circle-inner"></div>
+        <span id="resultPercentage">0%</span>
+      </div>
+      <p class="score-text" id="finalScore">You scored 0 out of 5</p>
+      <p class="focus-message" id="focusMessage"></p>
+      <button id="restartBtn">Restart Quiz</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { question: "What is the time complexity of binary search?", options: ["O(n)", "O(log n)", "O(n^2)", "O(1)"], answer: 1 },
+      { question: "Which data structure uses LIFO?", options: ["Queue", "Stack", "LinkedList", "Array"], answer: 1 },
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let selectedAnswer = null;
+
+    const quizSection = document.getElementById("quizSection");
+    const resultSection = document.getElementById("resultSection");
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("nextBtn");
+    const warningMessage = document.getElementById("warningMessage");
+    const restartBtn = document.getElementById("restartBtn");
+    const focusMessage = document.getElementById("focusMessage");
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      selectedAnswer = null;
+      warningMessage.style.display = "none";
+      nextBtn.style.display = "block";
+      q.options.forEach((option, index) => {
+        const optionBtn = document.createElement("button");
+        optionBtn.textContent = option;
+        optionBtn.classList.add("option");
+        optionBtn.setAttribute("data-answer", index === q.answer);
+        optionBtn.onclick = handleOptionClick;
+        optionsEl.appendChild(optionBtn);
+      });
+    }
+
+    function handleOptionClick(e) {
+      selectedAnswer = e.target;
+      const options = optionsEl.querySelectorAll(".option");
+      options.forEach(btn => btn.classList.remove("selected"));
+      e.target.classList.add("selected");
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (!selectedAnswer) {
+        warningMessage.style.display = "block";
+        return;
+      }
+      const correct = selectedAnswer.getAttribute("data-answer") === "true";
+      if (correct) score++;
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    function showResults() {
+      quizSection.style.display = "none";
+      resultSection.style.display = "block";
+      const percentage = Math.round((score / questions.length) * 100);
+      animateProgressBar(percentage);
+      document.getElementById("resultPercentage").textContent = `${percentage}%`;
+      document.getElementById("finalScore").textContent = `You scored ${score} out of ${questions.length}`;
+      focusMessage.textContent = percentage >= 80
+        ? "Great job! You're on top of your DSA game!"
+        : "Keep practicing DSA concepts like recursion and sorting!";
+    }
+
+    function animateProgressBar(percentage) {
+      const circle = document.querySelector(".progress-circle");
+      let current = 0;
+      const interval = setInterval(() => {
+        current++;
+        const color = current < 50 ? "red" : current < 80 ? "yellow" : "green";
+        circle.style.background = `conic-gradient(${color} ${current}%, #222 ${current}%)`;
+        if (current >= percentage) clearInterval(interval);
+      }, 10);
+    }
+
+    restartBtn.addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      quizSection.style.display = "block";
+      resultSection.style.display = "none";
+      loadQuestion();
+    });
+
+    loadQuestion();
+  </script>
+</body>
+</html>

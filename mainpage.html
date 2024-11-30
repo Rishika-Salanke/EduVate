@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space-Themed Learning</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0d1b2a; /* Space-like background */
+            color: white;
+        }
+
+        /* Header Styling */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: rgba(13, 27, 42, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .website-name {
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar input {
+            width: 300px;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .search-bar button {
+            margin-left: 5px;
+            padding: 8px 15px;
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #5c6bc0;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .points {
+            font-size: 18px;
+            background-color: #1b263b;
+            padding: 5px 10px;
+            border-radius: 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #e63946;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background-color: #1b263b;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+            display: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #3f51b5;
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            height: calc(100vh - 70px);
+            margin-top: 10px;
+        }
+
+        /* Left Box */
+        .left-box {
+            width: 25%;
+            background-color: rgba(19, 34, 64, 0.9);
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 2px solid #3f51b5;
+        }
+
+        .left-box h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .sub-section {
+            margin-left: 15px;
+            cursor: pointer;
+        }
+
+        .sub-section:hover {
+            text-decoration: underline;
+            color: #3f51b5;
+        }
+
+        /* Right Content */
+        .right-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .content-box {
+            background-color: rgba(19, 34, 64, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Space Theme Animation */
+        body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('C:\Users\umrp2\OneDrive\Desktop\EduVate\Eduvate2.0\2.png') repeat; /* Replace with your image's relative path */
+    opacity: 0.1;
+    z-index: -1;
+}
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e29507;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        .btn:hover {
+            background-color: #8bc027;
+        }
+
+        /* Fun Game Button */
+        .fun-game-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e63946;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .fun-game-btn:hover {
+            background-color: #ff6b6b;
+        }
+     
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="website-name" onclick="redirectToHome()">EduVate</div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="searchTopics()">Search</button>
+        </div>
+        <div class="profile-section">
+            <div class="profile-dropdown">
+                <div class="profile-icon" onclick="toggleDropdown()"></div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="#" onclick="redirectToProfile()">Profile</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Box -->
+        <div class="left-box">
+            <h2>Learning Sections</h2>
+            <div class="section-title">Data Structures</div>
+            <div class="sub-section" onclick="loadContent('arrays')">Arrays</div>
+            <div class="sub-section" onclick="loadContent('strings')">Strings</div>
+            <div class="section-title">Algorithms</div>
+            <div class="sub-section" onclick="loadContent('branchAndBound')">Branch and Bound</div>
+            <div class="sub-section" onclick="loadContent('backtracking')">Backtracking</div>
+            <div class="sub-section" onclick="loadContent('recursion')">Recursion</div>
+        </div>
+
+        <!-- Right Content -->
+        <div class="right-content">
+            <div class="content-box" id="contentBox">
+                <h2>Welcome!</h2>
+                <p>Select a topic from the left to get started.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Search Functionality
+        function searchTopics() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const topics = document.querySelectorAll('.sub-section');
+            let found = false;
+    
+            topics.forEach(topic => {
+                if (topic.textContent.toLowerCase().includes(searchInput) && searchInput !== '') {
+                    topic.style.color = '#3f51b5';
+                    topic.style.fontWeight = 'bold';
+                    topic.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    found = true;
+                } else {
+                    topic.style.color = 'white';
+                    topic.style.fontWeight = 'normal';
+                }
+            });
+    
+            if (!found && searchInput !== '') {
+                alert('No matching topics found.');
+            }
+        }
+    
+    
+        // Profile Dropdown
+        function toggleDropdown() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+    
+        function redirectToProfile() {
+            alert('Redirecting to profile page...');
+        }
+    
+        function logout() {
+            alert('Logging out...');
+        }
+    
+        // Dynamic Content Loader
+        function loadContent(topic) {
+            const contentBox = document.getElementById('contentBox');
+            let content = '';
+            if (topic === 'arrays') {
+                content = `
+                    <h2>Arrays</h2>
+                    <p>An array is a collection of elements stored in contiguous memory locations. It allows you to store multiple values in a single variable and access them via an index.</p>
+                    <h3>Why Learn Arrays?</h3>
+                    <ul>
+                        <li><strong>Efficiency:</strong> Arrays provide constant-time access to elements.</li>
+                        <li><strong>Memory Management:</strong> Arrays help manage large sets of data efficiently.</li>
+                        <li><strong>Core Concept:</strong> Arrays form the foundation for many data structures and algorithms.</li>
+                    </ul>
+                    <h3>Applications:</h3>
+                    <ul>
+                        <li><strong>Data Storage:</strong> Arrays are used to store multiple data items such as lists of numbers or objects.</li>
+                        <li><strong>Algorithms:</strong> Arrays are key to implementing sorting, searching, and other algorithms.</li>
+                        <li><strong>Games and Simulations:</strong> Arrays can store game board states or simulation data.</li>
+                    </ul>
+                    <div>
+    <a href="{{ url_for('ARV') }}" class="btn" target="_blank">Visualize and Learn</a>
+    <a href="{{ url_for('flashcards') }}" class="btn" target="_blank">Revise</a>
+    <a href="{{ url_for('quiz') }}" class="btn" target="_blank">Quiz</a>
+</div>
+
+                `;
+            } else if (topic === 'strings') {
+                content = `
+                    <h2>Strings</h2>
+                    <p>A string is a sequence of characters, used to represent text in programming. Strings are treated as arrays of characters and are fundamental to manipulating text data.</p>
+                    <h3>Why Learn Strings?</h3>
+                    <ul>
+                        <li><strong>Text Representation:</strong> Strings help in handling and manipulating text data.</li>
+                        <li><strong>Data Processing:</strong> Strings are key in tasks like parsing and formatting text.</li>
+                        <li><strong>Core Concept:</strong> Strings are essential for any software that deals with text.</li>
+                    </ul>
+                    <h3>Applications:</h3>
+                    <ul>
+                        <li><strong>User Input:</strong> Strings store data entered by users, like names and messages.</li>
+                        <li><strong>File Handling:</strong> Strings are used to read, write, and manipulate files.</li>
+                        <li><strong>Text Analysis:</strong> Strings are used in algorithms for pattern matching and text processing.</li>
+                    </ul>
+                    <div>
+                        <a href="#" class="btn" target="_blank">Video Lecture</a>
+                        <a href="{{ url_for('stringv') }}" class="btn" target="_blank">Visualise and Learn</a>
+                        <a href="{{ url_for('flashcards') }}" class="btn" target="_blank">Revise</a>
+    <a href="{{ url_for('quiz') }}" class="btn" target="_blank">Quiz</a>
+                    </div>
+                `;
+            } else if (topic === 'branchAndBound') {
+                content = `
+                    <h2>Branch and Bound</h2>
+                    <p>Branch and Bound is an optimization technique used to solve problems like the 0/1 Knapsack Problem, where we aim to find the optimal solution by systematically exploring subproblems.</p>
+                    <h3>Steps:</h3>
+                    <ol>
+                        <li><strong>Problem Formulation:</strong> Break down the problem into smaller subproblems.</li>
+                        <li><strong>Branching:</strong> Divide the problem into branches that represent partial solutions.</li>
+                        <li><strong>Bounding:</strong> Calculate upper or lower bounds for each subproblem to estimate the best solution.</li>
+                        <li><strong>Pruning:</strong> Eliminate branches that cannot yield a better solution.</li>
+                        <li><strong>Selection:</strong> Choose the next subproblem to explore based on the best bounds.</li>
+                        <li><strong>Termination:</strong> The algorithm terminates when all branches have been explored.</li>
+                    </ol>
+                    <p>Sudoku is a classic example of Branch and Bound. Let's look at how the algorithm can be applied to solve a Sudoku puzzle:</p>
+                    <h3>Branch and Bound Algorithm for Solving Sudoku</h3>
+                    <p>In Sudoku, we try to fill the grid with digits from 1 to 9, making sure that each row, column, and 3x3 subgrid contains all digits without repetition. Branch and Bound is used to efficiently explore possible solutions by pruning unpromising branches early. Here's a simplified version of the algorithm:</p>
+                    <img src="suduko.jpg" alt="Branch and Bound Diagram" style="max-width: 100%; border-radius: 10px; margin-top: 20px;" class="img">
+                        <h4 class="algos">Algorithm:</h4>
+                    <ol>
+                        <li><strong>Step 1:</strong> Start with an empty grid or a partially filled grid.</li>
+                        <li><strong>Step 2:</strong> Choose an empty cell in the grid and try placing a number from 1 to 9.</li>
+                        <li><strong>Step 3:</strong> Check if placing the number violates the Sudoku rules (i.e., if the number already exists in the row, column, or subgrid).</li>
+                        <li><strong>Step 4:</strong> If placing the number is valid, move to the next empty cell and repeat Step 2. This creates a new branch.</li>
+                        <li ><strong>Step 5:</strong> If placing the number is invalid, backtrack by trying a different number or cell. If no valid numbers exist, prune the current branch and explore another.</li>
+                        <li><strong>Step 6:</strong> Continue branching and bounding until the entire grid is filled or all possible branches are explored.</li>
+                    </ol>
+                    <p>At each step, the algorithm tries placing numbers and checks the validity of the placement. If it encounters an invalid configuration, it backtracks and tries other possibilities.</p>
+                    <p>The power of Branch and Bound in this case is in its ability to prune invalid branches early, saving time and computational effort by not exploring invalid configurations further.</p>
+                    <div>
+                        <a href="#" class="btn" target="_blank">Fun Game for Better Understanding</a>
+                    </div>
+                `;
+            } else if (topic === 'backtracking') {
+                content = `
+                   <h2>Backtracking</h2>
+<p>Backtracking is a systematic trial-and-error technique used to solve problems by exploring all possible options. It builds solutions incrementally and abandons partial solutions when they are determined to be invalid.</p>
+
+<h3>Steps:</h3>
+<ol>
+    <li><strong>Start:</strong> Begin with an initial state or an empty solution.</li>
+    <li><strong>Try:</strong> Explore one possibility at a time by adding a new component to the solution.</li>
+    <li><strong>Check:</strong> Verify whether the partial solution satisfies the constraints.</li>
+    <li><strong>Backtrack:</strong> If a partial solution violates constraints, backtrack by removing the last added component and trying a different option.</li>
+    <li><strong>Continue:</strong> Repeat until a complete solution is found or all possibilities are exhausted.</li>
+</ol>
+
+<p>The **N-Queens Problem** is a classic example of backtracking. The goal is to place N queens on an NxN chessboard so that no two queens threaten each other (i.e., no two queens share the same row, column, or diagonal).</p>
+
+<h3>Backtracking Algorithm for Solving N-Queens</h3>
+<p>Backtracking is used to systematically explore all valid placements for the queens while pruning invalid configurations early to save time and computational resources.</p>
+
+<img src="nqeens.jpg" alt="Backtracking N-Queens Diagram" style="max-width: 100%; border-radius: 10px; margin-top: 20px;">
+
+<h4 >Algorithm:</h4>
+<ol>
+    <li><strong>Step 1:</strong> Place the first queen in the leftmost column.</li>
+    <li><strong>Step 2:</strong> Move to the next column and try placing a queen in each row of that column.</li>
+    <li><strong>Step 3:</strong> After placing a queen, check if it conflicts with queens in previous columns (i.e., check rows, columns, and diagonals).</li>
+    <li><strong>Step 4:</strong> If a valid position is found, place the queen and move to the next column. If no valid position exists, backtrack to the previous column and try a different row.</li>
+    <li><strong>Step 5:</strong> Repeat this process until:
+        <ul>
+            <li>All queens are placed on the board (solution found), or</li>
+            <li>No valid configurations exist (all possibilities explored).</li>
+        </ul>
+    </li>
+    <li><strong>Step 6:</strong> When a solution is found, store or print it, and backtrack to explore other possibilities (if required).</li>
+</ol>
+
+<p>At each step, the algorithm incrementally builds a solution, backtracking whenever a conflict arises. By systematically pruning invalid options, backtracking significantly reduces the search space.</p>
+
+<p>Backtracking ensures that invalid configurations are abandoned early, making the process efficient even for larger values of N.</p>
+
+<div>
+    <a href="{{ url_for('practice2') }}" class="btn" target="_blank">Try it yourself!</a>
+</div>
+
+                `;}else if (topic === 'recursion') {
+                content = `<h2>Recursion</h2>
+<p>Recursion is a problem-solving technique where a function calls itself to solve smaller instances of the same problem. It is particularly useful for problems that can be divided into smaller subproblems of the same type.</p>
+
+<h3>Steps:</h3>
+<ol>
+    <li><strong>Base Case:</strong> Identify the simplest case of the problem that can be solved directly without recursion.</li>
+    <li><strong>Recursive Case:</strong> Break the problem into smaller subproblems and solve them recursively.</li>
+    <li><strong>Combine Results:</strong> Use the solutions of the smaller subproblems to solve the original problem.</li>
+</ol>
+
+<p>The **Tower of Hanoi** problem is a classic example of recursion. The goal is to move a set of disks from one rod to another, following specific rules:</p>
+<ul>
+    <li>Only one disk can be moved at a time.</li>
+    <li>A disk can only be placed on an empty rod or on top of a larger disk.</li>
+    <li>The disks must retain their original order on the destination rod.</li>
+</ul>
+
+<h3>Recursive Algorithm for Tower of Hanoi</h3>
+<p>Recursion is used to break the problem into smaller subproblems by moving smaller stacks of disks to an auxiliary rod before transferring the largest disk.</p>
+
+<img src="toh3disks.jpg" alt="Tower of Hanoi Diagram" style="max-width: 100%; border-radius: 10px; margin-top: 20px;" class="img">
+
+<h4 class="algos">Algorithm:</h4>
+<ol>
+    <li><strong>Step 1:</strong> Start with N disks on the source rod.</li>
+    <li><strong>Step 2:</strong> Move the top (N-1) disks from the source rod to the auxiliary rod using the destination rod as a helper.</li>
+    <li><strong>Step 3:</strong> Move the largest disk (Nth disk) from the source rod to the destination rod.</li>
+    <li><strong>Step 4:</strong> Move the (N-1) disks from the auxiliary rod to the destination rod using the source rod as a helper.</li>
+    <li><strong>Step 5:</strong> Repeat these steps recursively until only one disk remains (base case).</li>
+</ol>
+
+<p>Each recursive step reduces the number of disks, eventually reaching the base case where only one disk is moved directly.</p>
+<p>This process requires 2<sup>N</sup> - 1 moves, where N is the number of disks.</p>
+
+<h4>Base Case:</h4>
+<p>When N = 1, move the single disk directly from the source rod to the destination rod.</p>
+
+<h4>Recursive Formula:</h4>
+<pre>
+T(N) = 2 * T(N-1) + 1
+</pre>
+
+<p>Here, T(N) is the total number of moves required for N disks.</p>
+
+<div>
+    <a href="{{ url_for('practice1') }}" class="btn" target="_blank">Try it your</a>
+</div>
+`;
+                }
+            
+    
+            contentBox.innerHTML = content;
+        }
+    </script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Tower of Hanoi</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Dark background */
+            color: #ffffff;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .left-section {
+    flex: 1;
+    padding: 20px;
+    padding-right: 30px;
+    overflow-y: auto;
+    background-color: #323131; /* Slightly lighter dark background */
+    margin-right: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    text-align: center; /* Center-align the text */
+}
+
+        .right-section {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #000000; /* Darker background for the game area */
+            border-radius: 10px;
+        }
+        h1 {
+    color: #ffffff; /* Yellow color for headings */
+    margin-bottom: 20px; /* Add more space below headings */
+}
+
+h2 {
+    color: #d38a02; /* Yellow color for headings */
+    margin-bottom: 20px; /* Add more space below headings */
+}
+
+h3 {
+    color: #e42727; /* Yellow color for headings */
+    margin-bottom: 20px; /* Add more space below headings */
+}
+
+p {
+    margin-bottom: 15px; /* Add more space below paragraphs */
+}
+
+ol, ul {
+    margin-bottom: 20px; /* Add more space below lists */
+    padding-left: 20px; /* Add left padding to lists */
+}
+
+ol li, ul li {
+    margin-bottom: 10px; /* Add more space between list items */
+}
+        #game-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        .tower {
+            width: 25%;
+            height: 300px;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: relative;
+        }
+        .peg {
+            width: 10px;
+            height: 100%;
+            background-color: #8B4513; /* Wooden color */
+            border-radius: 5px;
+        }
+        .disk {
+            position: absolute;
+            height: 30px; /* Set a proper height */
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            font-size: 12px;
+            cursor: grab;
+        }
+        .disk[data-size="1"] { width: 60px; background-color: #FF4500; } /* Red */
+        .disk[data-size="2"] { width: 80px; background-color: #FFA500; } /* Orange */
+        .disk[data-size="3"] { width: 100px; background-color: #FFFF00; } /* Yellow */
+        .disk[data-size="4"] { width: 120px; background-color: #008000; } /* Green */
+        .disk[data-size="5"] { width: 140px; background-color: #0000FF; } /* Blue */
+        .disk[data-size="6"] { width: 160px; background-color: #4B0082; } /* Indigo */
+        .disk[data-size="7"] { width: 180px; background-color: #800080; } /* Violet */
+        .base {
+            width: 100%;
+            height: 20px;
+            background-color: #8B4513;
+            position: absolute;
+            bottom: 0;
+        }
+        .alert-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #FFDD57; /* Yellow alert background */
+    color: #444;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    display: none; /* Hidden initially */
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    text-align: center;
+    font-size: 1rem;
+    max-width: 80%;
+}
+
+
+        .alert-box span {
+            flex: 1;
+        }
+        .alert-box button {
+            margin-left: 10px;
+            background: none;
+            border: none;
+            color: #444;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        #reset-btn {
+            margin-top: 20px;
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #reset-btn:hover {
+            background-color: #666;
+        }
+        #move-counter {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #FFDD57; /* Yellow color for move counter */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <h2 style="color: #FFFF00;">Algorithm</h2>
+            <p>The Tower of Hanoi is a classic example of a recursive algorithm. It involves moving disks between three pegs (source, auxiliary, and destination) following these steps:</p>
+            <h3>Steps to Solve Tower of Hanoi:</h3>
+            <ol>
+                <li><strong>Move n-1 disks from source to auxiliary:</strong> Use the destination peg as an auxiliary peg.</li>
+                <li><strong>Move the nth disk from source to destination:</strong> Move the largest disk directly to its final position.</li>
+                <li><strong>Move the n-1 disks from auxiliary to destination:</strong> Complete the process using the source peg as an auxiliary peg.</li>
+            </ol>
+            <h2 style="color: #d38a02;">Instructions for Game</h2>
+            <ul>
+                <li>Drag and drop the disks to move them between towers.</li>
+                <li>A larger disk cannot be placed on top of a smaller disk.</li>
+                <li>Try to move all the disks from the leftmost tower to the rightmost tower.</li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <h1>Practice Tower of Hanoi</h1>
+            <div id="game-area">
+                <div class="tower" data-index="0">
+                    <div class="peg"></div>
+                    <div class="base"></div>
+                </div>
+                <div class="tower" data-index="1">
+                    <div class="peg"></div>
+                    <div class="base"></div>
+                </div>
+                <div class="tower" data-index="2">
+                    <div class="peg"></div>
+                    <div class="base"></div>
+                </div>
+                <div class="alert-box" id="alert-box">
+                    <span id="alert-message"></span>
+                    <button id="close-alert">X</button>
+                </div>
+            </div>
+            
+            <div class="alert-box" id="alert-box">
+                <span id="alert-message"></span>
+                <button id="close-alert">X</button>
+            </div>
+            <div id="move-counter">Moves: 0</div>
+            <button id="reset-btn">Reset</button>
+        </div>
+    </div>
+    <script>
+        // JavaScript functionality
+        const towers = document.querySelectorAll('.tower');
+        const alertBox = document.getElementById('alert-box');
+        const alertMessage = document.getElementById('alert-message');
+        const closeAlert = document.getElementById('close-alert');
+        const moveCounter = document.getElementById('move-counter');
+        const resetButton = document.getElementById('reset-btn');
+
+        let moves = 0;
+        let draggedDisk = null;
+
+        // Initialize game with disks on the first tower
+        const initializeGame = (numDisks = 3) => {
+            moves = 0;
+            moveCounter.textContent = `Moves: ${moves}`;
+            towers.forEach(tower => tower.innerHTML = '<div class="peg"></div><div class="base"></div>');
+            const firstTower = towers[0];
+            const baseHeight = 20; // Height of the base
+            const pegHeight = 100; // Height of the peg
+
+            // Set proper stacking with moderate gaps
+            for (let i = numDisks; i >= 1; i--) {
+                const disk = document.createElement('div');
+                disk.classList.add('disk');
+                disk.setAttribute('data-size', i);
+                disk.draggable = true;
+                disk.textContent = `Disk ${i}`;
+               // Update disk positioning so the bottom disk rests directly on the peg's base
+               disk.style.bottom = `${pegHeight + (numDisks - i - 2.5) * 32}px`; // Adjust bottom positioning
+                firstTower.appendChild(disk);
+            }
+            alertBox.style.display = 'none';
+        };
+
+        
+// Show alert and auto-hide after 3 seconds
+const showAlert = (message) => {
+    alertMessage.textContent = message;
+    alertBox.style.display = 'flex';
+
+    setTimeout(() => {
+        alertBox.style.display = 'none';
+    }, 3000); // 3 seconds
+};
+
+
+       // Hide alert manually
+closeAlert.addEventListener('click', () => {
+    alertBox.style.display = 'none';
+});
+
+      // Drag and drop logic
+towers.forEach(tower => {
+    tower.addEventListener('dragstart', (e) => {
+        if (e.target.classList.contains('disk')) {
+            const towerDisks = Array.from(e.currentTarget.querySelectorAll('.disk'));
+            if (e.target !== towerDisks[towerDisks.length - 1]) {
+                draggedDisk = null;
+            } else {
+                draggedDisk = e.target;
+            }
+        }
+    });
+
+    tower.addEventListener('dragover', (e) => {
+        e.preventDefault();
+    });
+
+    tower.addEventListener('drop', (e) => {
+        if (!draggedDisk) return;
+
+        const towerDisks = Array.from(e.currentTarget.querySelectorAll('.disk'));
+        const topDisk = towerDisks[towerDisks.length - 1];
+        const draggedSize = parseInt(draggedDisk.getAttribute('data-size'));
+
+        if (topDisk && draggedSize > parseInt(topDisk.getAttribute('data-size'))) {
+            showAlert("Invalid Move: Larger disk cannot be placed on smaller disk.");
+        } else {
+            e.currentTarget.appendChild(draggedDisk);
+            draggedDisk.style.bottom = `${towerDisks.length * 32 + 20}px`;
+            moves++;
+            moveCounter.textContent = `Moves: ${moves}`;
+            draggedDisk = null;
+        }
+    });
+});
+
+        // Reset game
+        resetButton.addEventListener('click', () => {
+            initializeGame();
+            alertBox.style.display = 'none'; // Hide alert box on reset
+        });
+
+        // Initialize the game with 3 disks
+        initializeGame();
+    </script>
+</body>
+</html>

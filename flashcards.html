@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickRevision</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #14293f; /* Dark background */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: rgba(13, 27, 42, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            width: 100%;
+            padding: 2rem 0;
+            position: relative;
+            flex-wrap: wrap;
+        }
+
+        .flashcard-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .flashcard {
+            width: 200px;
+            height: 300px;
+            background-color: white; /* Front side white */
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.5s ease-in-out;
+            perspective: 1000px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashcard-inner {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+            position: absolute;
+        }
+
+        .flashcard.flip .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard .front,
+        .flashcard .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .flashcard:nth-child(1) .front {
+            background-color: #FF5733; /* Red */
+        }
+
+        .flashcard:nth-child(2) .front {
+            background-color: #33FF57; /* Green */
+        }
+
+        .flashcard:nth-child(3) .front {
+            background-color: #3357FF; /* Blue */
+        }
+
+        .flashcard:nth-child(4) .front {
+            background-color: #F1C40F; /* Yellow */
+        }
+
+        .flashcard .back {
+            background-color: white; /* White for the answer side */
+            color: black;
+            transform: rotateY(180deg);
+            padding: 20px;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .typing-animation {
+            display: inline-block;
+            white-space: pre-wrap; /* Allow text to wrap */
+            word-wrap: break-word; /* Ensure long words break when necessary */
+            overflow: hidden;
+            border-right: 4px solid #000;
+            animation: typing 6s steps(50) 1s forwards; /* Adjust time and steps for your text length */
+        }
+
+        @keyframes typing {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* Hover effect */
+        .flashcard:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .flashcard:active {
+            transform: scale(1.05);
+        }
+
+        .flashcard:focus {
+            outline: none;
+        }
+
+        /* Keeping all cards in a single row */
+        .flashcard-container.arranged {
+            display: flex; /* Keep cards in the same row */
+            gap: 15px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>EduVate</h1>
+    </header>
+
+    <div class="main-content">
+        <div class="flashcard-container">
+            <div class="flashcard" onclick="flipAndMove(this)">
+                <div class="flashcard-inner">
+                    <div class="front">What is an Array?</div>
+                    <div class="back"><span class="typing-animation">An array is a collection of elements of the same data type.</span></div>
+                </div>
+            </div>
+            <div class="flashcard" onclick="flipAndMove(this)">
+                <div class="flashcard-inner">
+                    <div class="front">What is a String?</div>
+                    <div class="back"><span class="typing-animation">A string is a sequence of characters used for text representation.</span></div>
+                </div>
+            </div>
+            <div class="flashcard" onclick="flipAndMove(this)">
+                <div class="flashcard-inner">
+                    <div class="front">What is a Stack?</div>
+                    <div class="back"><span class="typing-animation">A stack is a data structure that follows the Last In, First Out (LIFO) principle.</span></div>
+                </div>
+            </div>
+            <div class="flashcard" onclick="flipAndMove(this)">
+                <div class="flashcard-inner">
+                    <div class="front">What is a Queue?</div>
+                    <div class="back"><span class="typing-animation">A queue is a data structure that follows the First In, First Out (FIFO) principle.</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function flipAndMove(card) {
+            card.classList.toggle('flip');
+            // Ensure all cards are flipped individually
+            document.querySelector('.flashcard-container').classList.add('arranged');
+        }
+    </script>
+
+</body>
+</html>

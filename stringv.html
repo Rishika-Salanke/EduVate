@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Manipulation Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #0d1b2a;
+            color: #e0e0e0;
+            margin: 0;
+            
+        }
+        h1 {
+            color: #e0e0e0;
+            text-shadow: 0 0 5px #000;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #000;
+        }
+        .box-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .box {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            border: 2px solid #333;
+            background-color: #2b2b2b;
+            color: #e0e0e0;
+            text-align: center;
+            line-height: 50px;
+            font-size: 1.5rem;
+            border-radius: 5px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            border: 2px solid #333;
+            background-color: #2b2b2b;
+            color: #e0e0e0;
+            text-align: center;
+            font-size: 1.5rem;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+        input[type="text"].long {
+            width: 150px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            background-color: #333;
+            color: #e0e0e0;
+            border-radius: 5px;
+            box-shadow: 0 0 5px #000;
+        }
+        button:hover {
+            background-color: #444;
+        }
+        #results {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>String Manipulation</h1>
+    <div class="container">
+        <div class="box-container" id="boxContainer">
+            <input type="text" maxlength="1" class="box" readonly>
+            <input type="text" maxlength="1" class="box" readonly>
+            <input type="text" maxlength="1" class="box" readonly>
+            <input type="text" maxlength="1" class="box" readonly>
+            <input type="text" maxlength="1" class="box" readonly>
+        </div>
+        <div>
+            <label for="indexInput">Index:</label>
+            <input type="number" id="indexInput" min="0" max="4">
+            <label for="charInput">Char:</label>
+            <input type="text" id="charInput" maxlength="1">
+            <button onclick="insertChar()">Insert</button>
+        </div>
+        <div>
+            <label for="deleteIndexInput">Delete at Index:</label>
+            <input type="number" id="deleteIndexInput" min="0" max="4">
+            <button onclick="deleteChar()">Delete</button>
+        </div>
+        <div class="box-container">
+            <label for="concatString1">String 1:</label>
+            <input type="text" id="concatString1" class="long">
+        </div>
+        <div class="box-container">
+            <label for="concatString2">String 2:</label>
+            <input type="text" id="concatString2" class="long">
+        </div>
+        <button onclick="concatenateStrings()">Concatenate</button>
+    </div>
+    <div id="results"></div>
+    
+    <script>
+        function insertChar() {
+            const index = document.getElementById('indexInput').value;
+            const char = document.getElementById('charInput').value;
+            const boxes = document.querySelectorAll('.box');
+
+            if (index >= 0 && index < boxes.length && char) {
+                boxes[index].value = char;
+            }
+        }
+
+        function deleteChar() {
+            const index = document.getElementById('deleteIndexInput').value;
+            const boxes = document.querySelectorAll('.box');
+
+            if (index >= 0 && index < boxes.length) {
+                boxes[index].value = '';
+            }
+        }
+
+        function concatenateStrings() {
+            const string1 = document.getElementById('concatString1').value;
+            const string2 = document.getElementById('concatString2').value;
+            const result = document.getElementById('results');
+
+            const concatenatedString = string1 + string2;
+            result.innerHTML = `Concatenated String: ${concatenatedString}`;
+        }
+    </script>
+</body>
+</html>

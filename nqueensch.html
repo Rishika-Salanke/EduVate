@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-Queens Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            height: 100vh;
+            background-color: #000;
+            background-image: url('https://images.unsplash.com/photo-1541661538391-5fd1a4d866cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-blend-mode: overlay;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+        .instructions {
+            flex: 1;
+            padding: 20px;
+            background-color: #b58863;
+            border-radius: 10px;
+            margin-right: 20px;
+            overflow-y: auto;
+            max-height: 100vh;
+            scrollbar-width: thin;
+        }
+        .instructions::-webkit-scrollbar {
+            width: 8px;
+        }
+        .instructions::-webkit-scrollbar-track {
+            background: #b58863;
+        }
+        .instructions::-webkit-scrollbar-thumb {
+            background-color: #666;
+            border-radius: 10px;
+            border: 3px solid #b58863;
+        }
+        .instructions h2 {
+            margin-bottom: 20px;
+            color: #000000;
+        }
+        .board-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        #board {
+            position: relative;
+            display: grid;
+            gap: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            border: 2px solid #666;
+            border-radius: 5px;
+        }
+        .cell:nth-child(odd) {
+            background-color: #f0d9b5;
+        }
+        .cell:nth-child(even) {
+            background-color: #b58863;
+        }
+        .queen {
+            font-size: 2rem;
+            color: #030301;
+            cursor: pointer;
+        }
+        #controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        #result-message {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 128, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            border: 1px solid #333;
+            border-radius: 5px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+        }
+        button:hover {
+            background-color: #555;
+        }
+
+        .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <p>The N-Queens problem is a classic puzzle where you must place N queens on an NxN chessboard so that no two queens threaten each other. This means:</p>
+            <ul>
+                <li>No two queens share the same row, column, or diagonal.</li>
+                <li>You can place a queen on an empty cell by clicking on it.</li>
+                <li>Click on a queen to remove it from the board.</li>
+                <li>Once all N queens are placed correctly, you win the game!</li>
+            </ul>
+            <p>Have fun solving the puzzle and improving your problem-solving skills!</p>
+
+            <div class="image-container">
+                <img src="/static/images/dewey-duck-challenge-accepted-9t1ofai3o4qso366.webp" alt="Challenge Accepted">
+            </div>
+            
+        </div>
+        <div class="board-container">
+            <h1>N-Queens Game</h1>
+            <div id="controls">
+                <input type="number" id="boardSize" min="1" max="20" value="8">
+                <button onclick="createBoard()">Create Board</button>
+                <button onclick="resetGame()">Reset Game</button>
+            </div>
+            <div id="board"></div>
+            <div id="result-message"></div>
+        </div>
+    </div>
+
+
+    <script>
+        let n = 8;
+        const board = document.getElementById('board');
+        const resultMessage = document.getElementById('result-message');
+        let queens = [];
+
+        function createBoard() {
+            n = parseInt(document.getElementById('boardSize').value);
+            board.style.setProperty('--n', n);
+            board.style.gridTemplateColumns = `repeat(${n}, 50px)`;
+            queens = [];
+            board.innerHTML = '';
+            resultMessage.style.display = 'none';
+            for (let i = 0; i < n * n; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.dataset.index = i;
+                cell.addEventListener('click', toggleQueen);
+                board.appendChild(cell);
+            }
+        }
+
+        function resetGame() {
+            createBoard();
+        }
+
+        function toggleQueen(event) {
+            const cell = event.target;
+            const index = parseInt(cell.dataset.index);
+            const row = Math.floor(index / n);
+            const col = index % n;
+
+            if (cell.classList.contains('queen')) {
+                cell.innerHTML = '';
+                cell.classList.remove('queen');
+                queens = queens.filter(([r, c]) => r !== row || c !== col);
+                resultMessage.style.display = 'none';
+            } else {
+                cell.innerHTML = '♛';
+                cell.classList.add('queen');
+                queens.push([row, col]);
+
+                if (queens.length === n) {
+                    checkWin();
+                }
+            }
+        }
+
+        function checkWin() {
+            if (queens.every(([row, col], idx) => isSafePlacement(queens, row, col, idx))) {
+                showResult('You Win!');
+            } else {
+                showResult('You Lose!');
+            }
+        }
+
+        function isSafePlacement(queens, row, col, idx) {
+            for (let i = 0; i < queens.length; i++) {
+                if (i !== idx) {
+                    const [qRow, qCol] = queens[i];
+                    if (qRow === row || qCol === col || Math.abs(qRow - row) === Math.abs(qCol - col)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function showResult(message) {
+    resultMessage.innerText = message;
+    if (message === 'You Win!') {
+        resultMessage.style.backgroundColor = 'rgba(0, 128, 0, 0.8)'; // Green for win
+    } else {
+        resultMessage.style.backgroundColor = 'rgba(255, 0, 0, 0.8)'; // Red for lose
+    }
+    resultMessage.style.display = 'block';
+}
+
+
+        createBoard();
+    </script>
+</body>
+</html>
